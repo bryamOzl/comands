@@ -1,0 +1,62 @@
+#SELECIONAR EL EMULADOR
+	CTR+SHIFT+P
+	Launch Emulator
+		Seleccionamosel emulador o dispositivo
+
+#Crear un nievo proyecto o app
+	CTR+SHIFT+P
+	Seleccionamos New Flutter project
+	Seleccionamos new app
+	Y finalizamos seleccionando donde se va a crear la app
+
+#CREAMOS PROYECTO DESDE CONSOLA CON EMPRESA
+	flutter create --org com.compania nombreapp
+	- Crea un nuevo proyecto en el directorio actual (observe el punto .) sin crear ninguna carpeta nueva:
+		flutter create --project-name project_name .
+		flutter create --project-name some_name --org com.COMPANY .
+	
+#CREAR LA ESTRUCTURA DE UN PROYECTO
+	BORRAMOS TODO LO QUE SE ENCUENTRA EN main
+	Y LUEGO INGRESAMOS EL COMANDO 
+		mateapp // Crear la estructura de un proyecto
+	OJO ANTES INSTALAR EXTENCIONES EN VScode DART AND FLUTTER AND FLUTTER SNIPPETS
+	
+#PARA INSTALAR NUEVAS DEPENDENCIAS LA BUSCAMOS EN pub.dev
+	BUSCAMOS LA VERSION QUE NECESITAMOS
+	Y LA COLOCALOS DENTRO DEL ARCHIVO pubspec.yaml
+	
+	INSTALAR DESDE LA TERMINAL UNA DEPENDENCIA
+		flutter pub add dio
+	
+	
+#COMANDOS RAPIDOS
+	- Prefijo stless: Crea una nueva subclase de StatelessWidget.
+	- Prefijo stful: Crea una nueva subclase de StatefulWidget y su subclase State asociada.
+	- Prefijo stanim: Crea una nueva subclase de StatefulWidget, y su subclase State asociada 
+		incluyendo un campo inicializado con un AnimationController.
+	
+	- Envolver un widget en otro como un Container un Padding
+		Posicionarse en el componente y aplastar
+			Ctrl + Shift + R
+	
+
+ctrl + . //Importar clases 
+Navigator.pushNamed(context, 'home'),
+
+#TIPOS DE VARIABLES 
+final = no se puede modificar la variable pero si se puede utilizar cuando la app esta utilizandose
+const = igual no se puede modificar la variable despues de ejecutar la app
+var = las variables pueden cambiar pero no se define que tipo es
+
+#COMANDOS FLUTTER
+	- Limpia todas las dependencias del proyecto
+		fluttter clean 
+
+# GENERAR EL INSTALADOR RELEASE PARA LAS APPS
+	- Paea Android se encuentra en esta ruta dentro de las apps build\app\outputs\flutter-apk\app-release.apk
+		flutter build apk --release
+		
+# ACCEDER Y CREAR NUEVOS SNIPPETS ATAJOS
+	CTRL+ SHIFT + P
+	user snippets
+	
