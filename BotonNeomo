@@ -1,0 +1,114 @@
+import 'package:flutter/material.dart';
+
+import '../theme/theme.dart';
+import '../utils/utils.dart';
+
+class AdministrarScreen extends StatelessWidget {
+  const AdministrarScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Map<String, dynamic> arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    const sizedBox = SizedBox(height: 15.0);
+
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+          title: Text('Contrato ${arguments['info'].contrato}'),
+        ),
+        body: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Boton(texto: 'DESREGISTRAR', funcion: () {}),
+              // sizedBox,
+              // Boton(texto: 'MODIFICAR MAC', funcion: () {}),
+              // sizedBox,
+              // Boton(texto: 'VERIFICAR MAC', funcion: () {}),
+              BotonNeuro(texto: 'DESREGISTRAR'),
+              sizedBox,
+              BotonNeuro(texto: 'MODIFICAR MAC'),
+              sizedBox,
+              BotonNeuro(texto: 'VERIFICAR MAC'),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BotonNeuro extends StatelessWidget {
+  const BotonNeuro({
+    super.key,
+    required this.texto,
+  });
+
+  final String texto;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: Disenio.getAncho(context, 0.5),
+      height: 60,
+      decoration: BoxDecoration(
+        color: Colors.grey[200], // Color del fondo
+        borderRadius: BorderRadius.circular(15), // Bordes redondeados
+        boxShadow: [
+          BoxShadow(
+            color: TemaApp.colorDos.withOpacity(0.3), // Color de la sombra
+            offset: const Offset(4.0, 4.0), // Desplazamiento de la sombra
+            blurRadius: 10.0, // Radio de desenfoque
+            spreadRadius: 1.0, // Radio de propagación
+          ),
+          const BoxShadow(
+            color: Colors.white, // Color de la luz
+            offset: Offset(-4.0, -4.0), // Desplazamiento de la luz
+            blurRadius: 10.0, // Radio de desenfoque
+            spreadRadius: 1.0, // Radio de propagación
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {},
+          borderRadius: BorderRadius.circular(15),
+          child: Center(
+            child: Text(
+              texto,
+              style: Disenio.getNegrita(color: TemaApp.colorDos),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Boton extends StatelessWidget {
+  const Boton({
+    super.key,
+    required this.texto,
+    required this.funcion,
+  });
+
+  final String texto;
+  final Function funcion;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: Disenio.getAncho(context, 0.45),
+      child: ElevatedButton(
+        onPressed: () => funcion(),
+        child: Text(
+          texto,
+          style: Disenio.getNegrita(color: TemaApp.colorSeis),
+        ),
+      ),
+    );
+  }
+}
