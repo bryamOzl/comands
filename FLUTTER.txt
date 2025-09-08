@@ -59,4 +59,10 @@ var = las variables pueden cambiar pero no se define que tipo es
 # ACCEDER Y CREAR NUEVOS SNIPPETS ATAJOS
 	CTRL+ SHIFT + P
 	user snippets
-	
+
+# LIMPIAR GRADLE
+	cd android
+	./gradlew clean
+
+# PROBAR LA APP PARA release
+	flutter run --release
