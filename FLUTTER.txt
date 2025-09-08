@@ -66,3 +66,7 @@ var = las variables pueden cambiar pero no se define que tipo es
 
 # PROBAR LA APP PARA release
 	flutter run --release
+
+# DESPUES DE FIRMAR LA APLICAION PARA SUBIR A LA PLAYSTORE
+	flutter build appbundle --release
+	flutter build apk --release   
