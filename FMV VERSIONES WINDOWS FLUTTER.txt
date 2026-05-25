@@ -1,0 +1,103 @@
+🛠️ Guía de Configuración: Flutter + FVM en Windows (Entornos Híbridos)
+
+Paso 1: Instalación Limpia de FVM mediante Dart
+	# 1. Desactivar cualquier rastro previo de FVM
+		dart pub global deactivate fvm
+
+	# 2. Reinstalar FVM forzando la sobreescritura de ejecutables
+		dart pub global activate fvm --overwrite
+		
+Paso 2: El Secreto de las Rutas en Git Bash (Windows vs Linux)
+	La ruta absoluta exacta y libre de errores que funcionó para ejecutar FVM en tu Git Bash es:
+		/c/Users/bryan/AppData/Local/Pub/Cache/bin/fvm.bat
+		
+Paso 3: Descargar y Enlazar la Versión Específica de Flutter
+	Para bajar la versión exacta de Flutter que requiere tu proyecto (3.16.0) 
+	y saltarte los problemas de permisos de enlaces simbólicos en Windows (aprovechando que ya activaste el Modo Desarrollador), 
+	ejecutamos dentro de la raiz del poryecto:
+	
+		/c/Users/bryan/AppData/Local/Pub/Cache/bin/fvm.bat use 3.16.0 --force
+		
+	¿Qué hizo este comando? Descargó el SDK de Flutter 3.16.0 de forma aislada dentro de la carpeta oculta .fvm/flutter_sdk en la raíz de tu proyecto.
+		
+Paso 4: Domar las Versiones de Java (Evitar el major version 65)
+	# Decirle a Flutter exactamente qué JDK usar para compilar Android Recomendable 17 para nuevos y versiones antiguas.
+		flutter config --jdk-dir "C:\Program Files\Java\jdk-17"
+		
+Paso 5: Ejecución del Proyecto sin Intermediarios (Rutas Definitivas)
+	# 1. Limpieza profunda del caché nativo anterior
+		.fvm/flutter_sdk/bin/flutter clean
+
+	# 2. Reconstrucción de dependencias con el motor correcto
+		.fvm/flutter_sdk/bin/flutter pub get
+
+	# 3. Compilar e instalar en el dispositivo conectado
+		.fvm/flutter_sdk/bin/flutter run
+
+Paso 6: Ajuste Temporal de Firmas (build.gradle) para Pruebas
+	Comentar el bloque de configuración de firmas de producción:
+	signingConfigs {
+		/*
+			create("release") {
+				keyAlias = keystoreProperties["keyAlias"] as String
+				...
+			}
+		*/
+	}
+	Forzar el bloque buildTypes para que use la firma de desarrollo estándar de Windows:
+	buildTypes {
+		release {
+			signingConfig = signingConfigs.getByName("debug")
+		}
+	}
+
+7 OPCIONAL Crear la configuración para VS Code
+	En la raíz de tu proyecto cb_radio_app, crea una carpeta llamada .vscode (con el punto adelante) y, dentro de ella, un archivo llamado settings.json.
+		{
+			"dart.flutterSdkPath": ".fvm/flutter_sdk",
+			"search.exclude": {
+				"**/.fvm": true
+			},
+			"watcherExclude": {
+				"**/.fvm": true
+			}
+		}
+		
+	Reiniciar VS Code
+		Guarda el archivo settings.json.
+		Cierra VS Code por completo y vuélvelo a abrir dentro de la carpeta del proyecto.
+		
+📋 Guía 2: Control de Git con FVM y Detección de Versiones Ocultas
+PARTE 1: ¿Cómo no subir la "basura" de FVM a Git?
+Para lograr esto, ve a la raíz de tu proyecto, abre (o crea) el archivo .gitignore y añade este bloque al final:
+
+# ==========================================
+# CONFIGURACIÓN DE FVM (FLUTTER VERSION MANAGEMENT)
+# ==========================================
+
+# 1. Ignorar por completo el SDK pesado de Flutter y sus binarios
+.fvm/flutter_sdk/
+
+# 2. Ignorar archivos locales e historiales de FVM
+.fvm/fvm_sdk_history
+.fvm/.gitignore
+
+# 3. EXCEPCIÓN OBLIGATORIA: Permitir subir el archivo de configuración (La receta)
+!.fvm/fvm_config.json
+
+PARTE 2: ¿Cómo detectar la versión de Flutter/Dart en un proyecto Global?
+Método 1: El archivo pubspec.lock (El más exacto)
+No mires el pubspec.yaml (este solo da rangos genéricos). Ve directo al archivo pubspec.lock (que se genera automáticamente al compilar) 
+y haz scroll hasta el final absoluto del archivo. Encontrarás un bloque idéntico a este:
+sdks:
+  dart: ">=3.2.0 <4.0.0"
+  flutter: "3.16.0" # <--- ¡ESTA ES LA VERSIÓN REAL CON LA QUE SE COMPILÓ!
+ 
+Método 2: El archivo android/local.properties (Rastro de la otra PC)
+
+🛠️ ¿Qué hacer una vez que descubres la versión?
+No necesitas desinstalar tu Flutter global moderno para adaptarte al proyecto viejo. 
+Simplemente "adopta" el proyecto usando FVM ejecutando este comando en su raíz:
+
+/c/Users/bryan/AppData/Local/Pub/Cache/bin/fvm.bat use [VERSION_DETECTADA] --force
+
